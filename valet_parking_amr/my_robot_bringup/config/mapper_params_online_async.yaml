@@ -1,0 +1,104 @@
+# ═══════════════════════════════════════════════════════════════════════════
+#  SLAM Toolbox — Online Asynchronous Mode
+#  Environment : parking_world.sdf  (~20m × 30m, static parked cars + walls)
+#  Robot       : diff-drive, lidar_link at z=0.23 above base_link
+#  ROS 2       : Jazzy  |  Gazebo : Harmonic
+#
+#  TF chain  : odom → base_footprint → base_link → lidar_link
+#  Scan topic: /scan  (bridged from Gazebo via ros_gz_bridge)
+#  Rate      : 10 Hz LiDAR, 100 Hz IMU (IMU not used by SLAM Toolbox directly)
+#
+#  Reference : github.com/SteveMacenski/slam_toolbox (ros2 branch)
+# ═══════════════════════════════════════════════════════════════════════════
+
+slam_toolbox:
+  ros__parameters:
+
+    # ── Solver ─────────────────────────────────────────────────────────────
+    solver_plugin:            solver_plugins::CeresSolver
+    ceres_linear_solver:      SPARSE_NORMAL_CHOLESKY
+    ceres_preconditioner:     SCHUR_JACOBI
+    ceres_trust_strategy:     LEVENBERG_MARQUARDT
+    ceres_dogleg_type:        TRADITIONAL_DOGLEG
+    ceres_loss_function:      None
+
+    # ── Frame IDs ──────────────────────────────────────────────────────────
+    # odom → base_footprint is published by gz-sim-diff-drive-system
+    # base_footprint → base_link is a fixed URDF joint
+    # base_link → lidar_link is published by lidar_tf_pub static publisher
+    odom_frame:   odom
+    map_frame:    map
+    base_frame:   base_footprint    # child_frame_id in DiffDrive plugin
+    scan_topic:   /scan
+    use_map_saver: true
+
+    # ── Lifecycle ─────────────────────────────────────────────────────────────
+    # autostart: true makes the node self-configure+activate on startup.
+    # Without this, async_slam_toolbox_node stays in 'unconfigured' state
+    # and never subscribes to /scan or publishes /map.
+    autostart: true
+
+    # ── Simulation time ────────────────────────────────────────────────────
+    # CRITICAL: must match every other node. If false here but true elsewhere,
+    # TF lookups will fail with "extrapolation into the past" errors.
+    use_sim_time: true
+
+    # ── Mode ───────────────────────────────────────────────────────────────
+    mode: mapping    # Use 'localization' in Phase 4 when loading parking_map
+
+    # ── Scan processing thresholds ─────────────────────────────────────────
+    # Parking lots have long identical corridors → process more scans to
+    # compensate for low feature distinctiveness.
+    minimum_travel_distance:  0.0    # metres  — 0.0 = process FIRST scan immediately (stationary)
+    minimum_travel_heading:   0.1    # radians — ~5.7° (was 0.2)
+    minimum_time_interval:    0.3    # seconds — async mode scan gate
+
+    # ── Map parameters ─────────────────────────────────────────────────────
+    # 0.05m = 5 cm/cell — resolves car body outlines and lane markings
+    resolution:        0.05
+
+    # ── LiDAR range ────────────────────────────────────────────────────────
+    # sensors.xacro sets range_max = 10.0 m. Use 9.5 to avoid edge noise.
+    max_laser_range:   9.5
+
+    # ── Loop closure ───────────────────────────────────────────────────────
+    # The 20×30 m lot will be fully revisited in a single exploration run.
+    # Conservative search distance prevents false closures on repetitive
+    # car shapes at different parking slots.
+    do_loop_closing:                    true
+    loop_search_maximum_distance:       4.0    # metres
+    loop_match_minimum_chain_size:      10
+    loop_match_maximum_variance_coarse: 3.0
+    loop_match_minimum_response_coarse: 0.35
+    loop_match_minimum_response_fine:   0.45
+
+    # ── Scan matcher ───────────────────────────────────────────────────────
+    correlation_search_space_dimension:       0.5
+    correlation_search_space_resolution:      0.01
+    correlation_search_space_smear_deviation: 0.1
+
+    distance_variance_penalty: 0.5
+    angle_variance_penalty:    1.0
+
+    fine_search_angle_offset:   0.00349    # radians (~0.2°)
+    coarse_search_angle_offset: 0.349      # radians (~20°)
+    coarse_angle_resolution:    0.0349     # radians (~2°)
+    minimum_angle_penalty:      0.9
+    minimum_distance_penalty:   0.5
+    use_response_expansion:     true
+
+    # ── TF buffer / timing ─────────────────────────────────────────────────
+    # Increase transform_timeout if you see TF lookup failures during sharp
+    # turns (the robot turns faster than TF can interpolate at 10 Hz scan rate).
+    transform_timeout:   0.3     # seconds
+    tf_buffer_duration:  30.0    # seconds — enough for scan matching look-back
+
+    # ── Serialization ──────────────────────────────────────────────────────
+    # Leave map_file_name empty for live mapping session.
+    # Populate in Phase 4 localization config with path to parking_map.yaml.
+    map_file_name:     ""
+    map_start_at_dock: false
+
+    # ── Memory ─────────────────────────────────────────────────────────────
+    # 40 MB stack — required for serialization of large pose graphs
+    stack_size_to_use: 40000000

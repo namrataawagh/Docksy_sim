@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <model name="parking_slot_marker">
+    <static>true</static>
+    <link name="marker">
+      <pose>0 0 0.01 0 0 0</pose>
+
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>5.0 2.5 0.02</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>1.0 1.0 1.0 1</ambient>
+          <diffuse>1.0 1.0 1.0 1</diffuse>
+        </material>
+      </visual>
+
+      <!-- No collision — this is a painted line, not a physical wall -->
+    </link>
+  </model>
+</sdf>

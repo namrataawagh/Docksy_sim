@@ -1,0 +1,219 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!--   SENSORS XACRO — LiDAR + IMU                                  -->
+  <!--   Stack   ROS 2 Jazzy + Gazebo Harmonic                       -->
+  <!--   Camera  already defined elsewhere — NOT touched here         -->
+  <!--                                                                 -->
+  <!--   MOUNTING STRATEGY                                            -->
+  <!--   LiDAR  top of chassis, centered at (0,0) — over CoR          -->
+  <!--   IMU    center of chassis at (0,0,0) — at CoM, under LiDAR    -->
+  <!--   Lever arm between LiDAR and IMU  only Z offset (LIDAR_Z)     -->
+  <!--   This minimizes extrinsic calibration complexity for fusion    -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+
+
+  <!-- ─── ROBOT GEOMETRY PROPERTIES ─────────────────────────────── -->
+  <!--                                                                 -->
+  <!--  ⚠️  CHANGE chassis_z to match YOUR robot's actual height       -->
+  <!--     chassis_z = the <size> z-dimension of your chassis box      -->
+  <!--     For my robot: chassis_z = 0.20                             -->
+  <!--                                                                 -->
+  <xacro:property name="chassis_z"      value="0.20"/>   <!-- robot body height in metres -->
+
+  <!-- Derived geometry -->
+  <!-- NOTE: Since base_link is at the bottom of the chassis box (z=0), 
+       the top of the chassis is at z=chassis_z, not chassis_z/2 -->
+  <xacro:property name="chassis_top"    value="${chassis_z}"/>        <!-- top surface z from base_link -->
+  <xacro:property name="lidar_radius"   value="0.04"/>                    <!-- LiDAR cylinder radius -->
+  <xacro:property name="lidar_height"   value="0.06"/>                    <!-- LiDAR cylinder height -->
+  <xacro:property name="lidar_z"        value="${chassis_top + lidar_height / 2}"/> <!-- LiDAR center z -->
+  <xacro:property name="imu_box_size"   value="0.01"/>                    <!-- IMU visual cube side -->
+
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!--  2.1  LiDAR                                                     -->
+  <!--  Position x=0, y=0 (center of rotation), z=chassis_top+r      -->
+  <!--  This gives 360° unobstructed FOV above the chassis             -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+
+  <link name="lidar_link">
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${lidar_radius}" length="${lidar_height}"/>
+      </geometry>
+      <material name="lidar_dark">
+        <color rgba="0.1 0.1 0.1 1.0"/>
+      </material>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${lidar_radius}" length="${lidar_height}"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <!-- Approximate inertia for a 100g cylinder -->
+      <!-- I_xx = I_yy = m(3r² + h²)/12, I_zz = mr²/2 -->
+      <mass value="0.1"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia
+        ixx="${0.1 * (3 * lidar_radius * lidar_radius + lidar_height * lidar_height) / 12}"
+        ixy="0.0" ixz="0.0"
+        iyy="${0.1 * (3 * lidar_radius * lidar_radius + lidar_height * lidar_height) / 12}"
+        iyz="0.0"
+        izz="${0.1 * lidar_radius * lidar_radius / 2}"/>
+    </inertial>
+
+  </link>
+
+  <!--
+    Joint base_link → lidar_link
+    - x = 0   centered at center of rotation (between wheels)
+    - y = 0   centered laterally
+    - z = chassis_top + lidar_height/2   LiDAR sits on top of chassis
+      → For 20cm robot  z = 0.20 + 0.03 = 0.23m
+    - rpy = 0 0 0   no rotation — LiDAR x-axis aligns with robot forward
+  -->
+  <joint name="lidar_joint" type="fixed">
+    <parent link="base_link"/>
+    <child  link="lidar_link"/>
+    <origin xyz="0 0 ${lidar_z}" rpy="0 0 0"/>
+  </joint>
+
+  <!-- ── Gazebo Harmonic sensor definition for LiDAR ─────────────── -->
+  <!--    type="gpu_lidar" is required for Gz Harmonic 2D scanning     -->
+  <!--    Leading slash = absolute GZ topic → bridge gz_topic_name="/scan" matches exactly -->
+  <!--    Without leading slash GZ prepends world/model/link/sensor namespace              -->
+  <!--    gz_frame_id must match link name exactly for TF alignment     -->
+  <gazebo reference="lidar_link">
+    <sensor name="lidar_sensor" type="gpu_lidar">
+
+      <pose>0 0 0 0 0 0</pose>
+      <topic>/scan</topic>
+      <update_rate>10</update_rate>
+      <visualize>true</visualize>
+      <always_on>true</always_on>
+
+      <lidar>
+        <scan>
+          <horizontal>
+            <samples>360</samples>
+            <resolution>1.0</resolution>
+            <min_angle>-3.14159265</min_angle>
+            <max_angle>3.14159265</max_angle>
+          </horizontal>
+          <vertical>
+            <samples>1</samples>
+            <min_angle>0.0</min_angle>
+            <max_angle>0.0</max_angle>
+          </vertical>
+        </scan>
+        <range>
+          <min>0.12</min>
+          <max>10.0</max>
+          <resolution>0.015</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </lidar>
+
+      <!-- frame_id must match link name lidar_link -->
+      <gz_frame_id>lidar_link</gz_frame_id>
+
+    </sensor>
+  </gazebo>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!--  2.2  IMU                                                       -->
+  <!--  Position x=0, y=0, z=0 — at center of mass of chassis        -->
+  <!--  Stacked directly below LiDAR (same x,y) — minimal lever arm   -->
+  <!--  z=0 means IMU is at base_link origin = center of robot body    -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+
+  <link name="imu_link">
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${imu_box_size} ${imu_box_size} ${imu_box_size}"/>
+      </geometry>
+      <material name="imu_cyan">
+        <color rgba="0.0 0.8 0.8 1.0"/>
+      </material>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${imu_box_size} ${imu_box_size} ${imu_box_size}"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <!-- Virtual sensor — near-zero mass, minimal inertia -->
+      <mass value="0.01"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia
+        ixx="1.67e-7" ixy="0.0" ixz="0.0"
+        iyy="1.67e-7" iyz="0.0"
+        izz="1.67e-7"/>
+    </inertial>
+
+  </link>
+
+  <!--
+    Joint base_link → imu_link
+    - x = 0   centered — same X as LiDAR (directly below it)
+    - y = 0   centered — same Y as LiDAR
+    - z = 0   at base_link origin = center of robot body = center of mass
+    → Lever arm to LiDAR = lidar_z only (pure Z offset)
+    → This is the optimal stacked configuration for LiDAR-IMU fusion
+  -->
+  <joint name="imu_joint" type="fixed">
+    <parent link="base_link"/>
+    <child  link="imu_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- ── Gazebo Harmonic sensor definition for IMU ─────────────────  -->
+  <!--    Requires gz-sim-imu-system plugin at the world/robot level    -->
+  <!--    Leading slash = absolute GZ topic → bridge gz_topic_name="/imu" matches exactly -->
+  <gazebo reference="imu_link">
+    <sensor name="imu_sensor" type="imu">
+
+      <pose>0 0 0 0 0 0</pose>
+      <topic>/imu</topic>
+      <update_rate>100</update_rate>
+      <always_on>true</always_on>
+      <visualize>false</visualize>
+
+      <imu>
+        <angular_velocity>
+          <x><noise type="gaussian"><mean>0.0</mean><stddev>2e-4</stddev><bias_mean>0.0000075</bias_mean><bias_stddev>0.0000008</bias_stddev></noise></x>
+          <y><noise type="gaussian"><mean>0.0</mean><stddev>2e-4</stddev><bias_mean>0.0000075</bias_mean><bias_stddev>0.0000008</bias_stddev></noise></y>
+          <z><noise type="gaussian"><mean>0.0</mean><stddev>2e-4</stddev><bias_mean>0.0000075</bias_mean><bias_stddev>0.0000008</bias_stddev></noise></z>
+        </angular_velocity>
+        <linear_acceleration>
+          <x><noise type="gaussian"><mean>0.0</mean><stddev>1.7e-2</stddev><bias_mean>0.1</bias_mean><bias_stddev>0.001</bias_stddev></noise></x>
+          <y><noise type="gaussian"><mean>0.0</mean><stddev>1.7e-2</stddev><bias_mean>0.1</bias_mean><bias_stddev>0.001</bias_stddev></noise></y>
+          <z><noise type="gaussian"><mean>0.0</mean><stddev>1.7e-2</stddev><bias_mean>0.1</bias_mean><bias_stddev>0.001</bias_stddev></noise></z>
+        </linear_acceleration>
+      </imu>
+
+      <gz_frame_id>imu_link</gz_frame_id>
+
+    </sensor>
+  </gazebo>
+
+
+</robot>

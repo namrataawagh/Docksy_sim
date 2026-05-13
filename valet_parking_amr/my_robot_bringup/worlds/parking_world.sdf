@@ -1,0 +1,2201 @@
+<sdf version='1.10'>
+  <world name='parking_world'>
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics"/>
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"/>
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"/>
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+    <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu"/>
+    <physics name='default_physics' type='ode'>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+    <gravity>0 0 -9.8000000000000007</gravity>
+    <magnetic_field>5.5644999999999998e-06 2.2875799999999999e-05 -4.2388400000000002e-05</magnetic_field>
+    <atmosphere type='adiabatic'/>
+    <scene>
+      <ambient>0.6 0.6 0.6 1.0</ambient>
+      <background>0.53 0.81 0.92 1.0</background>
+      <shadows>true</shadows>
+      <sky>
+        <clouds>
+          <speed>3</speed>
+          <direction>1.57</direction>
+          <humidity>0.7</humidity>
+          <mean_size>0.5</mean_size>
+          <ambient>0.9 0.9 0.9 1</ambient>
+        </clouds>
+        <time>10</time>
+        <sunrise>6</sunrise>
+        <sunset>20</sunset>
+      </sky>
+    </scene>
+    <model name='ground_plane'>
+      <static>true</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode/>
+            </friction>
+            <bounce/>
+            <contact/>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.800000012 0.800000012 0.800000012 1</ambient>
+            <diffuse>0.800000012 0.800000012 0.800000012 1</diffuse>
+            <specular>0.800000012 0.800000012 0.800000012 1</specular>
+          </material>
+        </visual>
+        <pose>0 0 0 0 0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <enable_wind>false</enable_wind>
+      </link>
+      <pose>0 0 0 0 0 0</pose>
+      <self_collide>false</self_collide>
+    </model>
+    <model name='wall_north'>
+      <static>true</static>
+      <pose>0 15 1 0 0 0</pose>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>20 0.20000000000000001 2</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode/>
+            </friction>
+            <bounce/>
+            <contact/>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>20 0.20000000000000001 2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.5 0.5 1</ambient>
+            <diffuse>0.5 0.5 0.5 1</diffuse>
+          </material>
+        </visual>
+        <pose>0 0 0 0 0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <enable_wind>false</enable_wind>
+      </link>
+      <self_collide>false</self_collide>
+    </model>
+    <model name='wall_south'>
+      <static>true</static>
+      <pose>0 -15 1 0 0 0</pose>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>20 0.20000000000000001 2</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode/>
+            </friction>
+            <bounce/>
+            <contact/>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>20 0.20000000000000001 2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.5 0.5 1</ambient>
+            <diffuse>0.5 0.5 0.5 1</diffuse>
+          </material>
+        </visual>
+        <pose>0 0 0 0 0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <enable_wind>false</enable_wind>
+      </link>
+      <self_collide>false</self_collide>
+    </model>
+    <model name='wall_east'>
+      <static>true</static>
+      <pose>10 0 1 0 0 0</pose>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>0.20000000000000001 30 2</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode/>
+            </friction>
+            <bounce/>
+            <contact/>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>0.20000000000000001 30 2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.5 0.5 1</ambient>
+            <diffuse>0.5 0.5 0.5 1</diffuse>
+          </material>
+        </visual>
+        <pose>0 0 0 0 0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <enable_wind>false</enable_wind>
+      </link>
+      <self_collide>false</self_collide>
+    </model>
+    <model name='wall_west'>
+      <static>true</static>
+      <pose>-10 0 1 0 0 0</pose>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>0.20000000000000001 30 2</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode/>
+            </friction>
+            <bounce/>
+            <contact/>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>0.20000000000000001 30 2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.5 0.5 1</ambient>
+            <diffuse>0.5 0.5 0.5 1</diffuse>
+          </material>
+        </visual>
+        <pose>0 0 0 0 0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <enable_wind>false</enable_wind>
+      </link>
+      <self_collide>false</self_collide>
+    </model>
+    <model name='slot_A1_left_line'>
+      <static>true</static>
+      <pose>-7 -8 0.01 0 0 0</pose>
+      <link name='link'>
+        <visual name='visual'>
+          <pose>0 -1.25 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>5 0.10000000000000001 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <pose>0 0 0 0 0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <enable_wind>false</enable_wind>
+      </link>
+      <self_collide>false</self_collide>
+    </model>
+    <model name='slot_A1_right_line'>
+      <static>true</static>
+      <pose>-7 -8 0.01 0 0 0</pose>
+      <link name='link'>
+        <visual name='visual'>
+          <pose>0 1.25 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>5 0.10000000000000001 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <pose>0 0 0 0 0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <enable_wind>false</enable_wind>
+      </link>
+      <self_collide>false</self_collide>
+    </model>
+    <model name='slot_A1_back_line'>
+      <static>true</static>
+      <pose>-7 -8 0.01 0 0 0</pose>
+      <link name='link'>
+        <visual name='visual'>
+          <pose>-2.5 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.10000000000000001 2.6000000000000001 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <pose>0 0 0 0 0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <enable_wind>false</enable_wind>
+      </link>
+      <self_collide>false</self_collide>
+    </model>
+    <model name='slot_A2_left_line'>
+      <static>true</static>
+      <pose>-7 -2 0.01 0 0 0</pose>
+      <link name='link'>
+        <visual name='visual'>
+          <pose>0 -1.25 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>5 0.10000000000000001 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <pose>0 0 0 0 0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <enable_wind>false</enable_wind>
+      </link>
+      <self_collide>false</self_collide>
+    </model>
+    <model name='slot_A2_right_line'>
+      <static>true</static>
+      <pose>-7 -2 0.01 0 0 0</pose>
+      <link name='link'>
+        <visual name='visual'>
+          <pose>0 1.25 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>5 0.10000000000000001 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <pose>0 0 0 0 0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <enable_wind>false</enable_wind>
+      </link>
+      <self_collide>false</self_collide>
+    </model>
+    <model name='slot_A2_back_line'>
+      <static>true</static>
+      <pose>-7 -2 0.01 0 0 0</pose>
+      <link name='link'>
+        <visual name='visual'>
+          <pose>-2.5 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.10000000000000001 2.6000000000000001 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <pose>0 0 0 0 0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <enable_wind>false</enable_wind>
+      </link>
+      <self_collide>false</self_collide>
+    </model>
+    <model name='slot_A3_left_line'>
+      <static>true</static>
+      <pose>-7 4 0.01 0 0 0</pose>
+      <link name='link'>
+        <visual name='visual'>
+          <pose>0 -1.25 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>5 0.10000000000000001 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <pose>0 0 0 0 0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <enable_wind>false</enable_wind>
+      </link>
+      <self_collide>false</self_collide>
+    </model>
+    <model name='slot_A3_right_line'>
+      <static>true</static>
+      <pose>-7 4 0.01 0 0 0</pose>
+      <link name='link'>
+        <visual name='visual'>
+          <pose>0 1.25 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>5 0.10000000000000001 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <pose>0 0 0 0 0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <enable_wind>false</enable_wind>
+      </link>
+      <self_collide>false</self_collide>
+    </model>
+    <model name='slot_A3_back_line'>
+      <static>true</static>
+      <pose>-7 4 0.01 0 0 0</pose>
+      <link name='link'>
+        <visual name='visual'>
+          <pose>-2.5 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.10000000000000001 2.6000000000000001 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <pose>0 0 0 0 0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <enable_wind>false</enable_wind>
+      </link>
+      <self_collide>false</self_collide>
+    </model>
+    <model name='slot_B1_left_line'>
+      <static>true</static>
+      <pose>3 -8 0.01 0 0 0</pose>
+      <link name='link'>
+        <visual name='visual'>
+          <pose>0 -1.25 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>5 0.10000000000000001 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <pose>0 0 0 0 0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <enable_wind>false</enable_wind>
+      </link>
+      <self_collide>false</self_collide>
+    </model>
+    <model name='slot_B1_right_line'>
+      <static>true</static>
+      <pose>3 -8 0.01 0 0 0</pose>
+      <link name='link'>
+        <visual name='visual'>
+          <pose>0 1.25 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>5 0.10000000000000001 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <pose>0 0 0 0 0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <enable_wind>false</enable_wind>
+      </link>
+      <self_collide>false</self_collide>
+    </model>
+    <model name='slot_B1_back_line'>
+      <static>true</static>
+      <pose>3 -8 0.01 0 0 0</pose>
+      <link name='link'>
+        <visual name='visual'>
+          <pose>2.5 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.10000000000000001 2.6000000000000001 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <pose>0 0 0 0 0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <enable_wind>false</enable_wind>
+      </link>
+      <self_collide>false</self_collide>
+    </model>
+    <model name='slot_B2_left_line'>
+      <static>true</static>
+      <pose>3 -2 0.01 0 0 0</pose>
+      <link name='link'>
+        <visual name='visual'>
+          <pose>0 -1.25 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>5 0.10000000000000001 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <pose>0 0 0 0 0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <enable_wind>false</enable_wind>
+      </link>
+      <self_collide>false</self_collide>
+    </model>
+    <model name='slot_B2_right_line'>
+      <static>true</static>
+      <pose>3 -2 0.01 0 0 0</pose>
+      <link name='link'>
+        <visual name='visual'>
+          <pose>0 1.25 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>5 0.10000000000000001 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <pose>0 0 0 0 0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <enable_wind>false</enable_wind>
+      </link>
+      <self_collide>false</self_collide>
+    </model>
+    <model name='slot_B2_back_line'>
+      <static>true</static>
+      <pose>3 -2 0.01 0 0 0</pose>
+      <link name='link'>
+        <visual name='visual'>
+          <pose>2.5 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.10000000000000001 2.6000000000000001 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <pose>0 0 0 0 0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <enable_wind>false</enable_wind>
+      </link>
+      <self_collide>false</self_collide>
+    </model>
+    <model name='slot_B3_left_line'>
+      <static>true</static>
+      <pose>3 4 0.01 0 0 0</pose>
+      <link name='link'>
+        <visual name='visual'>
+          <pose>0 -1.25 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>5 0.10000000000000001 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <pose>0 0 0 0 0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <enable_wind>false</enable_wind>
+      </link>
+      <self_collide>false</self_collide>
+    </model>
+    <model name='slot_B3_right_line'>
+      <static>true</static>
+      <pose>3 4 0.01 0 0 0</pose>
+      <link name='link'>
+        <visual name='visual'>
+          <pose>0 1.25 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>5 0.10000000000000001 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <pose>0 0 0 0 0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <enable_wind>false</enable_wind>
+      </link>
+      <self_collide>false</self_collide>
+    </model>
+    <model name='slot_B3_back_line'>
+      <static>true</static>
+      <pose>3 4 0.01 0 0 0</pose>
+      <link name='link'>
+        <visual name='visual'>
+          <pose>2.5 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.10000000000000001 2.6000000000000001 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <pose>0 0 0 0 0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <enable_wind>false</enable_wind>
+      </link>
+      <self_collide>false</self_collide>
+    </model>
+    <model name="car_A1">
+    <pose>-7 -8 0 0 0 1.5708000000000006</pose>
+    <link name="chassis">
+      <inertial>
+        <mass>1326.0</mass>
+        <pose>0 -0.266 0.48 0 0 0</pose>
+        <inertia>
+          <ixx>2581.13354740</ixx>
+          <ixy>0.0</ixy>
+          <iyy>591.30846112</iyy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+          <izz>2681.95008628</izz>
+        </inertia>
+      </inertial>
+
+      <visual name="chassis_visual">
+        <geometry>
+          <mesh>
+            <uri>model://prius_hybrid/meshes/Hybrid.obj</uri>
+            <scale>0.01 0.01 0.01</scale>
+            <submesh>
+              <name>Hybrid</name>
+              <center>false</center>
+            </submesh>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0.12 0.12 0.12 1</ambient>
+          <diffuse>0.18 0.18 0.18 1</diffuse>
+          <specular>0.75 0.75 0.75 1</specular>
+          <emissive>0 0 0 1</emissive>
+          <pbr>
+            <metal>
+              <albedo_map/>
+              <metalness>0.7</metalness>
+              <roughness>0.15</roughness>
+            </metal>
+          </pbr>
+        </material>
+
+      </visual>
+
+      <visual name="interior_visual">
+        <geometry>
+          <mesh>
+            <uri>model://prius_hybrid/meshes/Hybrid.obj</uri>
+            <scale>0.01 0.01 0.01</scale>
+            <submesh>
+              <name>Hybrid_Interior</name>
+              <center>false</center>
+            </submesh>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <visual name="windows_visual">
+        <geometry>
+          <mesh>
+            <uri>model://prius_hybrid/meshes/Hybrid.obj</uri>
+            <scale>0.01 0.01 0.01</scale>
+            <submesh>
+              <name>Hybrid_Windows</name>
+              <center>false</center>
+            </submesh>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <collision name="chassis">
+        <pose>0.0 0.05 0.625 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>1.7526 2.1 0.95</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="front_bumper">
+        <pose>0.0 -2.0 0.458488 0.0 0 0</pose>
+        <geometry>
+          <box>
+            <size>1.337282 0.48 0.566691</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="hood">
+        <pose>0.0 -1.900842 0.676305 0.341247 0 0</pose>
+        <geometry>
+          <box>
+            <size>1.597968 0.493107 0.265468</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="windshield">
+        <pose>0.0 -0.875105 1.032268 0.335476 0 0</pose>
+        <geometry>
+          <box>
+            <size>1.168381 1.654253 0.272347</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="top_front">
+        <pose>0.0 0.161236 1.386042 0.135030 0 0</pose>
+        <geometry>
+          <box>
+            <size>1.279154 0.625988 0.171868</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="top_rear">
+        <pose>0.0 0.817696 1.360069 -0.068997 0 0</pose>
+        <geometry>
+          <box>
+            <size>1.285130 0.771189 0.226557</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="rear_window">
+        <pose>0.0 1.640531 1.175126 -0.262017 0 0</pose>
+        <geometry>
+          <box>
+            <size>1.267845 1.116344 0.244286</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="trunk">
+        <pose>0.0 1.637059 0.888180 0.0 0 0</pose>
+        <geometry>
+          <box>
+            <size>1.788064 1.138988 0.482746</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="back_bumper">
+        <pose>0.0 2.054454 0.577870 0.0 0 0</pose>
+        <geometry>
+          <box>
+            <size>1.781650 0.512093 0.581427</size>
+          </box>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="steering_wheel">
+      <pose>0.357734 -0.627868 0.988243 -1.302101 0 0</pose>
+      <inertial>
+        <mass>1.0</mass>
+        <inertia>
+          <ixx>0.14583300</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.14583300</iyy>
+          <iyz>0</iyz>
+          <izz>0.12500000</izz>
+        </inertia>
+      </inertial>
+      <collision name="collision">
+        <geometry>
+          <cylinder>
+            <radius>0.178172</radius>
+            <length>0.041845</length>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode>
+              <min_depth>0.003</min_depth>
+            </ode>
+          </contact>
+        </surface>
+      </collision>
+      <visual name="visual">
+        <pose>0 0 0 1.302101 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://prius_hybrid/meshes/Hybrid.obj</uri>
+            <scale>0.01 0.01 0.01</scale>
+            <submesh>
+              <name>Steering_Wheel</name>
+              <center>true</center>
+            </submesh>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+
+    <link name="front_left_wheel">
+      <pose>0.76 -1.41 0.3 0 0 0</pose>
+      <inertial>
+        <mass>11</mass>
+        <inertia>
+          <ixx>0.58631238</ixx>
+          <ixy>0.0</ixy>
+          <iyy>0.33552910</iyy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+          <izz>0.33552910</izz>
+        </inertia>
+      </inertial>
+
+      <visual name="visual">
+        <pose>0.04 0.0 0.0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://prius_hybrid/meshes/Hybrid.obj</uri>
+            <scale>0.01 0.01 0.01</scale>
+            <submesh>
+              <name>Wheel_Front_Left_</name>
+              <center>true</center>
+            </submesh>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <collision name="collision">
+        <pose>0.0 0.0 0.0 0 1.5707963267948966 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.31265</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>0.9</mu>
+              <mu2>0.9</mu2>
+              <slip1>0.0</slip1>
+              <slip2>0.0</slip2>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <min_depth>0.001</min_depth>
+              <kp>1e9</kp>
+            </ode>
+          </contact>
+        </surface>
+
+      </collision>
+    </link>
+
+    <link name="front_right_wheel">
+      <pose>-0.76 -1.41 0.3 0 0 0</pose>
+      <inertial>
+        <mass>11</mass>
+        <inertia>
+          <ixx>0.58631238</ixx>
+          <ixy>0.0</ixy>
+          <iyy>0.33552910</iyy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+          <izz>0.33552910</izz>
+        </inertia>
+      </inertial>
+      <visual name="visual">
+        <pose>-0.04 0.0 0.0 0 0 0</pose>
+        <pose>0 0 0.0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://prius_hybrid/meshes/Hybrid.obj</uri>
+            <scale>0.01 0.01 0.01</scale>
+            <submesh>
+              <name>Wheel_Front_Right</name>
+              <center>true</center>
+            </submesh>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <collision name="collision">
+        <pose>0.0 0.0 0.0 0 1.5707963267948966 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.31265</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>0.9</mu>
+              <mu2>0.9</mu2>
+              <slip1>0.0</slip1>
+              <slip2>0.0</slip2>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <min_depth>0.001</min_depth>
+              <kp>1e9</kp>
+            </ode>
+          </contact>
+        </surface>
+
+      </collision>
+    </link>
+
+
+    <link name="rear_left_wheel">
+      <pose>0.786 1.45 0.3 0 0 0</pose>
+      <inertial>
+        <mass>11</mass>
+        <inertia>
+          <ixx>0.58631238</ixx>
+          <ixy>0.0</ixy>
+          <iyy>0.33552910</iyy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+          <izz>0.33552910</izz>
+        </inertia>
+      </inertial>
+
+      <visual name="visual">
+        <pose>0.04 0.0 0.0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://prius_hybrid/meshes/Hybrid.obj</uri>
+            <scale>0.01 0.01 0.01</scale>
+            <submesh>
+              <name>Wheel_Front_Left_</name>
+              <center>true</center>
+            </submesh>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <collision name="collision">
+        <pose>0.0 0.0 0.0 0 1.5707963267948966 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.31265</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.1</mu>
+              <mu2>1.1</mu2>
+              <slip1>0.0</slip1>
+              <slip2>0.0</slip2>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <min_depth>0.001</min_depth>
+              <kp>1e9</kp>
+            </ode>
+          </contact>
+        </surface>
+
+      </collision>
+    </link>
+
+    <link name="rear_right_wheel">
+      <pose>-0.786 1.45 0.3 0 0 0</pose>
+      <inertial>
+        <mass>11</mass>
+        <inertia>
+          <ixx>0.58631238</ixx>
+          <ixy>0.0</ixy>
+          <iyy>0.33552910</iyy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+          <izz>0.33552910</izz>
+        </inertia>
+      </inertial>
+      <visual name="visual">
+        <pose>-0.04 0.0 0.0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://prius_hybrid/meshes/Hybrid.obj</uri>
+            <scale>0.01 0.01 0.01</scale>
+            <submesh>
+              <name>Wheel_Front_Right</name>
+              <center>true</center>
+            </submesh>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <collision name="collision">
+        <pose>0.0 0.0 0.0 0 1.5707963267948966 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.31265</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.1</mu>
+              <mu2>1.1</mu2>
+              <slip1>0.0</slip1>
+              <slip2>0.0</slip2>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <min_depth>0.001</min_depth>
+              <kp>1e9</kp>
+            </ode>
+          </contact>
+        </surface>
+      </collision>
+    </link>
+
+    <joint type="universal" name="front_left_combined_joint">
+      <pose>0 0 0 -0.08726646259971647 0 0</pose>
+      <child>front_left_wheel</child>
+      <parent>chassis</parent>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <!-- +- 50 degrees -->
+          <lower>-0.8727</lower>
+          <upper>0.8727</upper>
+        </limit>
+      </axis>
+      <axis2>
+        <xyz>1 0 0</xyz>
+        <dynamics>
+          <friction>18.0474092253</friction>
+        </dynamics>
+      </axis2>
+    </joint>
+
+    <joint type="universal" name="front_right_combined_joint">
+      <pose>0 0 0 -0.08726646259971647 0 0</pose>
+      <child>front_right_wheel</child>
+      <parent>chassis</parent>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <!-- +- 50 degrees -->
+          <lower>-0.8727</lower>
+          <upper>0.8727</upper>
+        </limit>
+      </axis>
+      <axis2>
+        <xyz>1 0 0</xyz>
+        <dynamics>
+          <friction>18.0474092253</friction>
+        </dynamics>
+      </axis2>
+    </joint>
+
+    <link name="rear_axle">
+      <pose>0 1.45 0.3 0 0 0</pose>
+      <inertial>
+        <mass>30.0</mass>
+        <inertia>
+          <ixx>0.08437499999999999</ixx>
+          <ixy>0.0</ixy>
+          <iyy>4.64581</iyy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+          <izz>4.64581</izz>
+        </inertia>
+      </inertial>
+      <visual name="visual">
+        <pose>0.0 0.0 0.0 0 1.5707963267948966 0</pose>
+        <geometry>
+          <cylinder>
+            <length>1.357</length>
+            <radius>0.075</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Grey</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+    </link>
+
+    <joint type="revolute" name="rear_axle_joint">
+      <child>rear_axle</child>
+      <parent>chassis</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-0.05089058524173028</lower>
+          <upper>0.05089058524173028</upper>
+        </limit>
+        <dynamics>
+          <spring_stiffness>20000.0</spring_stiffness>
+          <damping>2000.0</damping>
+        </dynamics>
+      </axis>
+    </joint>
+    <joint type="revolute" name="rear_left_wheel_joint">
+      <child>rear_left_wheel</child>
+      <parent>rear_axle</parent>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <dynamics>
+          <friction>12.031606150200002</friction>
+        </dynamics>
+      </axis>
+    </joint>
+    <joint type="revolute" name="rear_right_wheel_joint">
+      <child>rear_right_wheel</child>
+      <parent>rear_axle</parent>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <dynamics>
+          <friction>12.031606150200002</friction>
+        </dynamics>
+      </axis>
+    </joint>
+
+    <joint name="steering_joint" type="revolute">
+      <pose>-0.002 0 0 0 0 0</pose>
+      <parent>chassis</parent>
+      <child>steering_wheel</child>
+      <axis>
+        <xyz>0 0.964095 0.265556</xyz>
+        <limit>
+          <lower>-7.85</lower>
+          <upper>7.85</upper>
+        </limit>
+        <dynamics>
+          <damping>1.0</damping>
+        </dynamics>
+        <use_parent_model_frame>true</use_parent_model_frame>
+      </axis>
+      <physics>
+        <ode>
+          <cfm_damping>1</cfm_damping>
+        </ode>
+      </physics>
+    </joint>
+  </model>
+    <model name="car_A3">
+    <static>true</static>
+    <pose>-7 4 0 0 0 -0.017126199435038431</pose>
+    <link name="link">
+      <collision name="collision">
+        <pose>0 0 0 0 0 1.57079632679</pose>
+        <geometry>
+          <mesh>
+            <scale>0.0254 0.0254 0.0254</scale>
+            <uri>model://hatchback_car/meshes/hatchback.obj</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <pose>0 0 0 0 0 1.57079632679</pose>
+        <geometry>
+          <mesh>
+            <scale>0.0254 0.0254 0.0254</scale>
+            <uri>model://hatchback_car/meshes/hatchback.obj</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0.12 0.12 0.12 1</ambient>
+          <diffuse>0.18 0.18 0.18 1</diffuse>
+          <specular>0.75 0.75 0.75 1</specular>
+          <emissive>0 0 0 1</emissive>
+          <pbr>
+            <metal>
+              <albedo_map/>
+              <metalness>0.7</metalness>
+              <roughness>0.15</roughness>
+            </metal>
+          </pbr>
+        </material>
+
+      </visual>
+    </link>
+  </model>
+    <model name="car_B2">
+    <pose>3 -2 0 0 0 -1.5708000000000006</pose>
+    <link name="chassis">
+      <inertial>
+        <mass>1326.0</mass>
+        <pose>0 -0.266 0.48 0 0 0</pose>
+        <inertia>
+          <ixx>2581.13354740</ixx>
+          <ixy>0.0</ixy>
+          <iyy>591.30846112</iyy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+          <izz>2681.95008628</izz>
+        </inertia>
+      </inertial>
+
+      <visual name="chassis_visual">
+        <geometry>
+          <mesh>
+            <uri>model://prius_hybrid/meshes/Hybrid.obj</uri>
+            <scale>0.01 0.01 0.01</scale>
+            <submesh>
+              <name>Hybrid</name>
+              <center>false</center>
+            </submesh>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0.05 0.08 0.22 1</ambient>
+          <diffuse>0.08 0.12 0.32 1</diffuse>
+          <specular>0.75 0.75 0.85 1</specular>
+          <emissive>0 0 0 1</emissive>
+          <pbr>
+            <metal>
+              <albedo_map/>
+              <metalness>0.7</metalness>
+              <roughness>0.15</roughness>
+            </metal>
+          </pbr>
+        </material>
+
+      </visual>
+
+      <visual name="interior_visual">
+        <geometry>
+          <mesh>
+            <uri>model://prius_hybrid/meshes/Hybrid.obj</uri>
+            <scale>0.01 0.01 0.01</scale>
+            <submesh>
+              <name>Hybrid_Interior</name>
+              <center>false</center>
+            </submesh>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <visual name="windows_visual">
+        <geometry>
+          <mesh>
+            <uri>model://prius_hybrid/meshes/Hybrid.obj</uri>
+            <scale>0.01 0.01 0.01</scale>
+            <submesh>
+              <name>Hybrid_Windows</name>
+              <center>false</center>
+            </submesh>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <collision name="chassis">
+        <pose>0.0 0.05 0.625 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>1.7526 2.1 0.95</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="front_bumper">
+        <pose>0.0 -2.0 0.458488 0.0 0 0</pose>
+        <geometry>
+          <box>
+            <size>1.337282 0.48 0.566691</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="hood">
+        <pose>0.0 -1.900842 0.676305 0.341247 0 0</pose>
+        <geometry>
+          <box>
+            <size>1.597968 0.493107 0.265468</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="windshield">
+        <pose>0.0 -0.875105 1.032268 0.335476 0 0</pose>
+        <geometry>
+          <box>
+            <size>1.168381 1.654253 0.272347</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="top_front">
+        <pose>0.0 0.161236 1.386042 0.135030 0 0</pose>
+        <geometry>
+          <box>
+            <size>1.279154 0.625988 0.171868</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="top_rear">
+        <pose>0.0 0.817696 1.360069 -0.068997 0 0</pose>
+        <geometry>
+          <box>
+            <size>1.285130 0.771189 0.226557</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="rear_window">
+        <pose>0.0 1.640531 1.175126 -0.262017 0 0</pose>
+        <geometry>
+          <box>
+            <size>1.267845 1.116344 0.244286</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="trunk">
+        <pose>0.0 1.637059 0.888180 0.0 0 0</pose>
+        <geometry>
+          <box>
+            <size>1.788064 1.138988 0.482746</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="back_bumper">
+        <pose>0.0 2.054454 0.577870 0.0 0 0</pose>
+        <geometry>
+          <box>
+            <size>1.781650 0.512093 0.581427</size>
+          </box>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="steering_wheel">
+      <pose>0.357734 -0.627868 0.988243 -1.302101 0 0</pose>
+      <inertial>
+        <mass>1.0</mass>
+        <inertia>
+          <ixx>0.14583300</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.14583300</iyy>
+          <iyz>0</iyz>
+          <izz>0.12500000</izz>
+        </inertia>
+      </inertial>
+      <collision name="collision">
+        <geometry>
+          <cylinder>
+            <radius>0.178172</radius>
+            <length>0.041845</length>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode>
+              <min_depth>0.003</min_depth>
+            </ode>
+          </contact>
+        </surface>
+      </collision>
+      <visual name="visual">
+        <pose>0 0 0 1.302101 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://prius_hybrid/meshes/Hybrid.obj</uri>
+            <scale>0.01 0.01 0.01</scale>
+            <submesh>
+              <name>Steering_Wheel</name>
+              <center>true</center>
+            </submesh>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+
+    <link name="front_left_wheel">
+      <pose>0.76 -1.41 0.3 0 0 0</pose>
+      <inertial>
+        <mass>11</mass>
+        <inertia>
+          <ixx>0.58631238</ixx>
+          <ixy>0.0</ixy>
+          <iyy>0.33552910</iyy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+          <izz>0.33552910</izz>
+        </inertia>
+      </inertial>
+
+      <visual name="visual">
+        <pose>0.04 0.0 0.0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://prius_hybrid/meshes/Hybrid.obj</uri>
+            <scale>0.01 0.01 0.01</scale>
+            <submesh>
+              <name>Wheel_Front_Left_</name>
+              <center>true</center>
+            </submesh>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <collision name="collision">
+        <pose>0.0 0.0 0.0 0 1.5707963267948966 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.31265</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>0.9</mu>
+              <mu2>0.9</mu2>
+              <slip1>0.0</slip1>
+              <slip2>0.0</slip2>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <min_depth>0.001</min_depth>
+              <kp>1e9</kp>
+            </ode>
+          </contact>
+        </surface>
+
+      </collision>
+    </link>
+
+    <link name="front_right_wheel">
+      <pose>-0.76 -1.41 0.3 0 0 0</pose>
+      <inertial>
+        <mass>11</mass>
+        <inertia>
+          <ixx>0.58631238</ixx>
+          <ixy>0.0</ixy>
+          <iyy>0.33552910</iyy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+          <izz>0.33552910</izz>
+        </inertia>
+      </inertial>
+      <visual name="visual">
+        <pose>-0.04 0.0 0.0 0 0 0</pose>
+        <pose>0 0 0.0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://prius_hybrid/meshes/Hybrid.obj</uri>
+            <scale>0.01 0.01 0.01</scale>
+            <submesh>
+              <name>Wheel_Front_Right</name>
+              <center>true</center>
+            </submesh>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <collision name="collision">
+        <pose>0.0 0.0 0.0 0 1.5707963267948966 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.31265</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>0.9</mu>
+              <mu2>0.9</mu2>
+              <slip1>0.0</slip1>
+              <slip2>0.0</slip2>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <min_depth>0.001</min_depth>
+              <kp>1e9</kp>
+            </ode>
+          </contact>
+        </surface>
+
+      </collision>
+    </link>
+
+
+    <link name="rear_left_wheel">
+      <pose>0.786 1.45 0.3 0 0 0</pose>
+      <inertial>
+        <mass>11</mass>
+        <inertia>
+          <ixx>0.58631238</ixx>
+          <ixy>0.0</ixy>
+          <iyy>0.33552910</iyy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+          <izz>0.33552910</izz>
+        </inertia>
+      </inertial>
+
+      <visual name="visual">
+        <pose>0.04 0.0 0.0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://prius_hybrid/meshes/Hybrid.obj</uri>
+            <scale>0.01 0.01 0.01</scale>
+            <submesh>
+              <name>Wheel_Front_Left_</name>
+              <center>true</center>
+            </submesh>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <collision name="collision">
+        <pose>0.0 0.0 0.0 0 1.5707963267948966 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.31265</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.1</mu>
+              <mu2>1.1</mu2>
+              <slip1>0.0</slip1>
+              <slip2>0.0</slip2>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <min_depth>0.001</min_depth>
+              <kp>1e9</kp>
+            </ode>
+          </contact>
+        </surface>
+
+      </collision>
+    </link>
+
+    <link name="rear_right_wheel">
+      <pose>-0.786 1.45 0.3 0 0 0</pose>
+      <inertial>
+        <mass>11</mass>
+        <inertia>
+          <ixx>0.58631238</ixx>
+          <ixy>0.0</ixy>
+          <iyy>0.33552910</iyy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+          <izz>0.33552910</izz>
+        </inertia>
+      </inertial>
+      <visual name="visual">
+        <pose>-0.04 0.0 0.0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://prius_hybrid/meshes/Hybrid.obj</uri>
+            <scale>0.01 0.01 0.01</scale>
+            <submesh>
+              <name>Wheel_Front_Right</name>
+              <center>true</center>
+            </submesh>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <collision name="collision">
+        <pose>0.0 0.0 0.0 0 1.5707963267948966 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.31265</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.1</mu>
+              <mu2>1.1</mu2>
+              <slip1>0.0</slip1>
+              <slip2>0.0</slip2>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <min_depth>0.001</min_depth>
+              <kp>1e9</kp>
+            </ode>
+          </contact>
+        </surface>
+      </collision>
+    </link>
+
+    <joint type="universal" name="front_left_combined_joint">
+      <pose>0 0 0 -0.08726646259971647 0 0</pose>
+      <child>front_left_wheel</child>
+      <parent>chassis</parent>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <!-- +- 50 degrees -->
+          <lower>-0.8727</lower>
+          <upper>0.8727</upper>
+        </limit>
+      </axis>
+      <axis2>
+        <xyz>1 0 0</xyz>
+        <dynamics>
+          <friction>18.0474092253</friction>
+        </dynamics>
+      </axis2>
+    </joint>
+
+    <joint type="universal" name="front_right_combined_joint">
+      <pose>0 0 0 -0.08726646259971647 0 0</pose>
+      <child>front_right_wheel</child>
+      <parent>chassis</parent>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <!-- +- 50 degrees -->
+          <lower>-0.8727</lower>
+          <upper>0.8727</upper>
+        </limit>
+      </axis>
+      <axis2>
+        <xyz>1 0 0</xyz>
+        <dynamics>
+          <friction>18.0474092253</friction>
+        </dynamics>
+      </axis2>
+    </joint>
+
+    <link name="rear_axle">
+      <pose>0 1.45 0.3 0 0 0</pose>
+      <inertial>
+        <mass>30.0</mass>
+        <inertia>
+          <ixx>0.08437499999999999</ixx>
+          <ixy>0.0</ixy>
+          <iyy>4.64581</iyy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+          <izz>4.64581</izz>
+        </inertia>
+      </inertial>
+      <visual name="visual">
+        <pose>0.0 0.0 0.0 0 1.5707963267948966 0</pose>
+        <geometry>
+          <cylinder>
+            <length>1.357</length>
+            <radius>0.075</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Grey</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+    </link>
+
+    <joint type="revolute" name="rear_axle_joint">
+      <child>rear_axle</child>
+      <parent>chassis</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-0.05089058524173028</lower>
+          <upper>0.05089058524173028</upper>
+        </limit>
+        <dynamics>
+          <spring_stiffness>20000.0</spring_stiffness>
+          <damping>2000.0</damping>
+        </dynamics>
+      </axis>
+    </joint>
+    <joint type="revolute" name="rear_left_wheel_joint">
+      <child>rear_left_wheel</child>
+      <parent>rear_axle</parent>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <dynamics>
+          <friction>12.031606150200002</friction>
+        </dynamics>
+      </axis>
+    </joint>
+    <joint type="revolute" name="rear_right_wheel_joint">
+      <child>rear_right_wheel</child>
+      <parent>rear_axle</parent>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <dynamics>
+          <friction>12.031606150200002</friction>
+        </dynamics>
+      </axis>
+    </joint>
+
+    <joint name="steering_joint" type="revolute">
+      <pose>-0.002 0 0 0 0 0</pose>
+      <parent>chassis</parent>
+      <child>steering_wheel</child>
+      <axis>
+        <xyz>0 0.964095 0.265556</xyz>
+        <limit>
+          <lower>-7.85</lower>
+          <upper>7.85</upper>
+        </limit>
+        <dynamics>
+          <damping>1.0</damping>
+        </dynamics>
+        <use_parent_model_frame>true</use_parent_model_frame>
+      </axis>
+      <physics>
+        <ode>
+          <cfm_damping>1</cfm_damping>
+        </ode>
+      </physics>
+    </joint>
+  </model>
+    <model name='aisle_center_line'>
+      <static>true</static>
+      <pose>-2 -2 0.01 0 0 0</pose>
+      <link name='link'>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>0.14999999999999999 18 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.899999976 0.899999976 0 1</ambient>
+            <diffuse>0.899999976 0.899999976 0 1</diffuse>
+          </material>
+        </visual>
+        <pose>0 0 0 0 0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <enable_wind>false</enable_wind>
+      </link>
+      <self_collide>false</self_collide>
+    </model>
+    <model name='pickup_zone'>
+      <static>true</static>
+      <pose>0 -12 0 0 0 0</pose>
+      <link name='marker'>
+        <pose>0 0 0.02 0 0 0</pose>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>4 4 0.040000000000000001</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0.800000012 0 0.699999988</ambient>
+            <diffuse>0 0.800000012 0 0.699999988</diffuse>
+          </material>
+        </visual>
+        <inertial>
+          <pose>0 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <enable_wind>false</enable_wind>
+      </link>
+      <self_collide>false</self_collide>
+    </model>
+    <model name='dropoff_zone'>
+      <static>true</static>
+      <pose>0 12 0 0 0 0</pose>
+      <link name='marker'>
+        <pose>0 0 0.02 0 0 0</pose>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>4 4 0.040000000000000001</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.800000012 0 0 0.699999988</ambient>
+            <diffuse>0.800000012 0 0 0.699999988</diffuse>
+          </material>
+        </visual>
+        <inertial>
+          <pose>0 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <enable_wind>false</enable_wind>
+      </link>
+      <self_collide>false</self_collide>
+    </model>
+    <light name='sun' type='directional'>
+      <pose>0 0 10 0 0 0</pose>
+      <cast_shadows>true</cast_shadows>
+      <intensity>1.0</intensity>
+      <direction>-0.3 0.2 -1.0</direction>
+      <diffuse>1.0 0.95 0.8 1</diffuse>
+      <specular>0.3 0.3 0.3 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <linear>0.01</linear>
+        <constant>0.90000000000000002</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+
+  <!-- PICKUP ZONE SIGN — east corner, robot never reaches here -->
+  <model name="pickup_zone_sign">
+    <static>true</static>
+    <pose>2.5 -13.5 0 0 0 3.1416</pose>
+
+    <link name="pole">
+      <pose>0 0 1.25 0 0 0</pose>
+      <visual name="pole_vis">
+        <geometry>
+          <cylinder>
+            <radius>0.06</radius>
+            <length>2.5</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.35 0.35 0.35 1</ambient>
+          <diffuse>0.45 0.45 0.45 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <emissive>0 0 0 1</emissive>
+        </material>
+      </visual>
+    </link>
+
+    <!-- White sign board — no glow, no emissive -->
+    <link name="board">
+      <pose>0 0 2.8 0 0 0</pose>
+      <visual name="board_vis">
+        <geometry>
+          <box><size>2.2 0.05 0.7</size></box>
+        </geometry>
+        <material>
+          <ambient>1 1 1 1</ambient>
+          <diffuse>1 1 1 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <emissive>0 0 0 1</emissive>
+          <pbr>
+            <metal>
+              <albedo_map>file:///home/namrata/Documents/ros2_ws/src/valet_parking_amr/my_robot_bringup/worlds/textures/pickup_sign.png</albedo_map>
+              <metalness>0.0</metalness>
+              <roughness>0.8</roughness>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+    </link>
+
+
+
+  </model>
+  <!-- END PICKUP ZONE SIGN -->
+
+  <!-- DROPOFF ZONE SIGN — east corner, robot never reaches here -->
+  <model name="dropoff_zone_sign">
+    <static>true</static>
+    <pose>2.5 13.5 0 0 0 0</pose>
+
+    <link name="pole">
+      <pose>0 0 1.25 0 0 0</pose>
+      <visual name="pole_vis">
+        <geometry>
+          <cylinder>
+            <radius>0.06</radius>
+            <length>2.5</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.35 0.35 0.35 1</ambient>
+          <diffuse>0.45 0.45 0.45 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <emissive>0 0 0 1</emissive>
+        </material>
+      </visual>
+    </link>
+
+    <!-- White sign board — no glow, no emissive -->
+    <link name="board">
+      <pose>0 0 2.8 0 0 0</pose>
+      <visual name="board_vis">
+        <geometry>
+          <box><size>2.2 0.05 0.7</size></box>
+        </geometry>
+        <material>
+          <ambient>1 1 1 1</ambient>
+          <diffuse>1 1 1 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <emissive>0 0 0 1</emissive>
+          <pbr>
+            <metal>
+              <albedo_map>file:///home/namrata/Documents/ros2_ws/src/valet_parking_amr/my_robot_bringup/worlds/textures/dropoff_sign.png</albedo_map>
+              <metalness>0.0</metalness>
+              <roughness>0.8</roughness>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+    </link>
+
+
+
+  </model>
+  <!-- END DROPOFF ZONE SIGN -->
+
+  </world>
+</sdf>

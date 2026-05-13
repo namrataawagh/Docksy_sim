@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="my_py_pkg" exec="number_publisher" />
+    <node pkg ="my_py_pkg" exec="number_counter" />
+</launch>

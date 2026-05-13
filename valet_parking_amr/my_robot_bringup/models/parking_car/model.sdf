@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <model name="parking_car">
+    <static>true</static>
+    <link name="body">
+      <pose>0 0 0.75 0 0 0</pose>
+
+      <collision name="collision">
+        <geometry>
+          <box>
+            <size>4.5 2.0 1.5</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>4.5 2.0 1.5</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.2 0.4 0.8 1</ambient>
+          <diffuse>0.2 0.4 0.8 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+        </material>
+      </visual>
+
+      <inertial>
+        <mass>1500</mass>
+        <inertia>
+          <ixx>469</ixx>
+          <iyy>3164</iyy>
+          <izz>3164</izz>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyz>0</iyz>
+        </inertia>
+      </inertial>
+    </link>
+  </model>
+</sdf>
